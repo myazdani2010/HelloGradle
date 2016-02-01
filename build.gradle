@@ -1,0 +1,96 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+
+sourceCompatibility = 1.8
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+
+dependencies {
+	compile 'com.google.guava:guava:18.0'
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    
+    //Spring Mongo
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    
+    testCompile("junit:junit")
+    
+    //Apache Tika
+    compile('org.apache.tika:tika-parsers:1.11')
+
+}
+
+test {
+    systemProperties 'property': 'value'
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = true
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
+
+
+defaultTasks 'clean', 'hello'
+
+task helloApplication(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'org.gradle.Application'
+
+    // simple defensive programming to define optional arguments
+    if (project.hasProperty("arguments")) {
+        args arguments.split(" ")
+    }
+}
+
+task TestTypeDetection(type: JavaExec){
+	classpath = sourceSets.main.runtimeClasspath
+	main = 'org.tika.test.TypeDetection'
+}
+
+task helloRunMe(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'org.gradle.RunMe'
+}
+
+task helloCrawler(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'org.gradle.Crawler'
+}
+
+
+
+task readFile(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+	
+    main = 'edu.csula.cs454.example.FileRead'
+}
+
+//Spring Mongo setup
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.2.RELEASE")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
