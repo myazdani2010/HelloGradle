@@ -3,6 +3,7 @@ package org.tika.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.logging.Handler;
 
 import org.apache.tika.Tika;
@@ -59,7 +60,7 @@ public class TypeDetection {
       ParseContext picContext = new ParseContext();
       
       parser.parse(picInputstream, picHandler, picMetadata, picContext);
-      System.out.println(picHandler.toString());
+      System.out.println(parser.toString());
 
       //getting the list of all meta data elements 
       String[] picMetadataNames = picMetadata.names();
@@ -67,8 +68,22 @@ public class TypeDetection {
       for(String name : picMetadataNames) {		        
          System.out.println(name + ": " + picMetadata.get(name));
       }
-      
+          
 //      System.out.println(picMetadata.get("IHDR"));
+      
+      //list of meta data elements before adding new elements
+//      System.out.println( " metadata elements :"  +Arrays.toString(picMetadata.names()));
+
+      //adding new meta data name value pair
+      picMetadata.add("newKey","Value Of newKey");
+//      System.out.println(" metadata name value pair is successfully added");
+      
+      //printing all the meta data elements after adding new elements
+//      System.out.println("Here is the list of all the metadata elements  after adding new elements ");
+//      System.out.println( Arrays.toString(picMetadata.names()));
+      
+     
+      
       
       System.out.println("********** END: TypeDetection ********");
    }

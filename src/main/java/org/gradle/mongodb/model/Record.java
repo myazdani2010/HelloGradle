@@ -16,6 +16,7 @@ public class Record {
 	private String extension;
 	private String owner;
 	private String date;
+	private String resolution;
 	
 	public Record(){}
 	
